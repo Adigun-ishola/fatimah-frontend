@@ -3,11 +3,11 @@ import { SITE_CONFIG } from "@/lib/constants";
 import ArticleDetail from "./ArticleDetail";
 
 interface Props {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  // In production, fetch article data here for dynamic SEO
+  const resolvedParams = await params;
   return {
     title: `Article | ${SITE_CONFIG.name}`,
     description: `Read this legal article by Jimoh-Sulaiman Fatima Adesewa.`,
@@ -18,6 +18,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function ArticlePage({ params }: Props) {
-  return <ArticleDetail slug={params.slug} />;
+export default async function ArticlePage({ params }: Props) {
+  const resolvedParams = await params;
+  return <ArticleDetail slug={resolvedParams.slug} />;
 }

@@ -9,7 +9,7 @@ import DataTable from "@/components/admin/DataTable";
 import Modal from "@/components/ui/Modal";
 import Button from "@/components/ui/Button";
 
-type AchievementCategory = Achievement["category"];
+type AchievementCategory = "leadership" | "academic" | "award" | "certificate" | "community";
 
 export default function AdminAchievementsPage() {
   const [items, setItems] = useState<Achievement[]>([]);
@@ -55,7 +55,7 @@ export default function AdminAchievementsPage() {
         organization: item.organization,
         date_received: item.date_received ? item.date_received.split("T")[0] : "",
         description: item.description || "",
-        category: item.category,
+        category: item.category as AchievementCategory,
         certificate_url: item.certificate_url || "",
       });
     } else {
@@ -74,10 +74,14 @@ export default function AdminAchievementsPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const payload: Partial<Achievement> = {
+      ...formData,
+    };
+
     if (editingItem) {
-      await adminApi.updateAchievement(editingItem.id, formData);
+      await adminApi.updateAchievement(editingItem.id, payload);
     } else {
-      await adminApi.createAchievement(formData);
+      await adminApi.createAchievement(payload);
     }
 
     setIsModalOpen(false);
