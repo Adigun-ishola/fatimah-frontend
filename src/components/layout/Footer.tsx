@@ -126,9 +126,7 @@ export default function Footer() {
             © {currentYear} {SITE_CONFIG.name}. All rights reserved.
           </p>
           <p className="flex items-center mt-2 sm:mt-0">
-            Developed by <a href="https://aai-resume.vercel.app/" target="_blank" rel="noopener noreferrer" className="hover:text-[#c9a84c] transition-colors">
-              Harvatech
-            </a>
+            Developed by <a href="https://aai-resume.vercel.app/" target="_blank" rel="noopener noreferrer" className="hover:text-[#c9a84c] transition-colors"> Harvatech </a>
           </p>
         </div>
       </div>
