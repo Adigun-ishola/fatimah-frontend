@@ -14,9 +14,10 @@ import {
   Settings,
   LogOut,
   ExternalLink,
+  X,
 } from "lucide-react";
 
-const NAV_ITEMS = [
+export const ADMIN_NAV_ITEMS = [
   { name: "Overview", href: "/admin", icon: LayoutDashboard },
   { name: "Articles", href: "/admin/articles", icon: BookOpen },
   { name: "Education", href: "/admin/education", icon: GraduationCap },
@@ -27,7 +28,12 @@ const NAV_ITEMS = [
   { name: "Site Settings", href: "/admin/settings", icon: Settings },
 ];
 
-export default function AdminSidebar() {
+interface AdminSidebarProps {
+  isOpen?: boolean;
+  onClose?: () => void;
+}
+
+export default function AdminSidebar({ isOpen = false, onClose }: AdminSidebarProps) {
   const pathname = usePathname();
   const { logout } = useAuth();
 
@@ -36,12 +42,16 @@ export default function AdminSidebar() {
     return pathname.startsWith(href);
   };
 
-  return (
-    <aside className="w-64 bg-[#0f2440] text-white flex flex-col flex-shrink-0 min-h-screen">
+  const handleNavClick = () => {
+    if (onClose) onClose();
+  };
+
+  const content = (
+    <div className="flex flex-col h-full bg-[#0f2440] text-white">
       {/* Brand Header */}
-      <div className="p-6 border-b border-white/10">
+      <div className="p-5 border-b border-white/10 flex items-center justify-between">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 rounded-full bg-[#c9a84c] flex items-center justify-center font-bold text-[#1a365d]">
+          <div className="w-10 h-10 rounded-full bg-[#c9a84c] flex items-center justify-center font-bold text-[#1a365d] shadow-sm">
             FA
           </div>
           <div>
@@ -49,24 +59,34 @@ export default function AdminSidebar() {
             <p className="text-xs text-gray-400">Jimoh-Sulaiman F.A.</p>
           </div>
         </div>
+        {onClose && (
+          <button
+            onClick={onClose}
+            className="md:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/10"
+            aria-label="Close menu"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        )}
       </div>
 
-      {/* Nav List */}
+      {/* Nav Items */}
       <nav className="flex-1 p-4 space-y-1.5 overflow-y-auto">
-        {NAV_ITEMS.map((item) => {
+        {ADMIN_NAV_ITEMS.map((item) => {
           const Icon = item.icon;
           const active = isActive(item.href);
           return (
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+              onClick={handleNavClick}
+              className={`flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
                 active
-                  ? "bg-[#c9a84c] text-[#0f2440] font-semibold"
+                  ? "bg-[#c9a84c] text-[#0f2440] font-semibold shadow-sm"
                   : "text-gray-300 hover:bg-white/5 hover:text-white"
               }`}
             >
-              <Icon className="w-5 h-5" />
+              <Icon className="w-5 h-5 flex-shrink-0" />
               <span>{item.name}</span>
             </Link>
           );
@@ -78,6 +98,7 @@ export default function AdminSidebar() {
         <Link
           href="/"
           target="_blank"
+          onClick={handleNavClick}
           className="flex items-center justify-between w-full px-4 py-2.5 rounded-lg text-xs font-medium text-gray-300 hover:bg-white/5 hover:text-white transition-colors"
         >
           <span className="flex items-center gap-2">
@@ -86,13 +107,47 @@ export default function AdminSidebar() {
           </span>
         </Link>
         <button
-          onClick={logout}
+          onClick={() => {
+            if (onClose) onClose();
+            logout();
+          }}
           className="flex items-center space-x-3 w-full px-4 py-2.5 rounded-lg text-xs font-medium text-red-400 hover:bg-red-500/10 transition-colors"
         >
           <LogOut className="w-4 h-4" />
           <span>Sign Out</span>
         </button>
       </div>
-    </aside>
+    </div>
+  );
+
+  return (
+    <>
+      {/* Desktop Persistent Sidebar */}
+      <aside className="hidden md:flex md:w-64 md:flex-col md:flex-shrink-0 min-h-screen border-r border-gray-200">
+        {content}
+      </aside>
+
+      {/* Mobile Slide-over Drawer */}
+      <div
+        className={`fixed inset-0 z-50 md:hidden transition-opacity duration-300 ${
+          isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+      >
+        {/* Backdrop */}
+        <div
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm"
+          onClick={onClose}
+        />
+
+        {/* Drawer Panel */}
+        <div
+          className={`fixed inset-y-0 left-0 w-72 max-w-[85vw] transform transition-transform duration-300 ease-in-out shadow-2xl ${
+            isOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
+          {content}
+        </div>
+      </div>
+    </>
   );
 }

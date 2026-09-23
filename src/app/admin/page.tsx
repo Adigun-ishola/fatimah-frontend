@@ -7,7 +7,6 @@ import {
   GraduationCap,
   Award,
   Scale,
-  Mail,
   PlusCircle,
   ExternalLink,
 } from "lucide-react";
@@ -55,28 +54,28 @@ export default function AdminDashboardPage() {
 
   const cards = [
     {
-      title: "Articles Published",
+      title: "Articles",
       value: stats.articles,
       icon: BookOpen,
       color: "bg-blue-500",
       href: "/admin/articles",
     },
     {
-      title: "Education Milestones",
+      title: "Education",
       value: stats.education,
       icon: GraduationCap,
       color: "bg-emerald-500",
       href: "/admin/education",
     },
     {
-      title: "Legal Journey Entries",
+      title: "Legal Journey",
       value: stats.journey,
       icon: Scale,
       color: "bg-indigo-500",
       href: "/admin/legal-journey",
     },
     {
-      title: "Achievements & Awards",
+      title: "Achievements",
       value: stats.achievements,
       icon: Award,
       color: "bg-amber-500",
@@ -85,95 +84,93 @@ export default function AdminDashboardPage() {
   ];
 
   return (
-    <div className="space-y-8">
-      {/* Top Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-8 rounded-2xl border border-gray-200 shadow-sm">
+    <div className="space-y-6 sm:space-y-8">
+      {/* Welcome Banner */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-5 sm:p-7 rounded-2xl border border-gray-200 shadow-sm">
         <div>
-          <h1 className="text-2xl font-bold text-[#1a365d] font-['Playfair_Display']">
-            Welcome back, Fatima Adesewa!
+          <h1 className="text-xl sm:text-2xl font-bold text-[#1a365d] font-['Playfair_Display']">
+            Welcome, Fatima Adesewa!
           </h1>
-          <p className="text-gray-500 text-sm mt-1">
-            Manage your legal portfolio, publish scholarship, and update milestones.
+          <p className="text-gray-500 text-xs sm:text-sm mt-1">
+            Manage your legal portfolio, scholarship, and career milestones.
           </p>
         </div>
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-2 sm:gap-3">
           <Link
             href="/admin/articles/new"
-            className="btn-accent text-xs px-4 py-2.5 flex items-center gap-2 rounded-lg"
+            className="btn-accent text-xs px-3.5 py-2.5 flex items-center gap-1.5 rounded-xl font-medium"
           >
             <PlusCircle className="w-4 h-4" />
-            Write Article
+            <span>Write Article</span>
           </Link>
           <Link
             href="/"
             target="_blank"
-            className="btn-outline text-xs px-4 py-2.5 flex items-center gap-2 rounded-lg"
+            className="btn-outline text-xs px-3.5 py-2.5 flex items-center gap-1.5 rounded-xl font-medium"
           >
             <ExternalLink className="w-4 h-4" />
-            Live Site
+            <span>View Site</span>
           </Link>
         </div>
       </div>
 
-      {/* Metric Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* Metrics Grid */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
         {cards.map((card, idx) => {
           const Icon = card.icon;
           return (
             <Link
               key={idx}
               href={card.href}
-              className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow"
+              className="bg-white p-4 sm:p-6 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between"
             >
               <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-                    {card.title}
-                  </p>
-                  <p className="text-3xl font-bold text-gray-900 mt-2">
-                    {isLoading ? "..." : card.value}
-                  </p>
-                </div>
-                <div className={`p-3 rounded-xl text-white ${card.color}`}>
-                  <Icon className="w-6 h-6" />
+                <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  {card.title}
+                </span>
+                <div className={`p-2 sm:p-2.5 rounded-xl text-white ${card.color}`}>
+                  <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
               </div>
+              <p className="text-2xl sm:text-3xl font-bold text-gray-900 mt-3">
+                {isLoading ? "..." : card.value}
+              </p>
             </Link>
           );
         })}
       </div>
 
-      {/* Quick Action Matrix */}
-      <div className="grid md:grid-cols-2 gap-6">
-        <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
-          <h3 className="font-bold text-[#1a365d] font-['Playfair_Display'] text-lg mb-4">
+      {/* Quick Action Matrix & Messages Card */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+        <div className="bg-white p-5 sm:p-6 rounded-2xl border border-gray-200 shadow-sm">
+          <h3 className="font-bold text-[#1a365d] font-['Playfair_Display'] text-base sm:text-lg mb-4">
             Quick Actions
           </h3>
           <div className="grid grid-cols-2 gap-3">
             <Link
               href="/admin/education"
-              className="p-4 rounded-xl border border-gray-100 bg-gray-50 hover:bg-gray-100 text-sm font-medium text-gray-700 flex flex-col gap-2 transition-colors"
+              className="p-3 sm:p-4 rounded-xl border border-gray-100 bg-gray-50/80 hover:bg-gray-100 text-xs sm:text-sm font-medium text-gray-700 flex flex-col gap-2 transition-colors"
             >
               <GraduationCap className="w-5 h-5 text-[#c9a84c]" />
               Add Education
             </Link>
             <Link
               href="/admin/legal-journey"
-              className="p-4 rounded-xl border border-gray-100 bg-gray-50 hover:bg-gray-100 text-sm font-medium text-gray-700 flex flex-col gap-2 transition-colors"
+              className="p-3 sm:p-4 rounded-xl border border-gray-100 bg-gray-50/80 hover:bg-gray-100 text-xs sm:text-sm font-medium text-gray-700 flex flex-col gap-2 transition-colors"
             >
               <Scale className="w-5 h-5 text-[#c9a84c]" />
               Add Journey Milestone
             </Link>
             <Link
               href="/admin/achievements"
-              className="p-4 rounded-xl border border-gray-100 bg-gray-50 hover:bg-gray-100 text-sm font-medium text-gray-700 flex flex-col gap-2 transition-colors"
+              className="p-3 sm:p-4 rounded-xl border border-gray-100 bg-gray-50/80 hover:bg-gray-100 text-xs sm:text-sm font-medium text-gray-700 flex flex-col gap-2 transition-colors"
             >
               <Award className="w-5 h-5 text-[#c9a84c]" />
-              Add Certificate / Award
+              Add Achievement
             </Link>
             <Link
               href="/admin/gallery"
-              className="p-4 rounded-xl border border-gray-100 bg-gray-50 hover:bg-gray-100 text-sm font-medium text-gray-700 flex flex-col gap-2 transition-colors"
+              className="p-3 sm:p-4 rounded-xl border border-gray-100 bg-gray-50/80 hover:bg-gray-100 text-xs sm:text-sm font-medium text-gray-700 flex flex-col gap-2 transition-colors"
             >
               <BookOpen className="w-5 h-5 text-[#c9a84c]" />
               Upload Photos
@@ -181,26 +178,26 @@ export default function AdminDashboardPage() {
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm flex flex-col justify-between">
+        <div className="bg-white p-5 sm:p-6 rounded-2xl border border-gray-200 shadow-sm flex flex-col justify-between">
           <div>
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-bold text-[#1a365d] font-['Playfair_Display'] text-lg">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="font-bold text-[#1a365d] font-['Playfair_Display'] text-base sm:text-lg">
                 Messages Inbox
               </h3>
-              <span className="px-2.5 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded-full">
-                {stats.unreadMessages} New
+              <span className="px-2.5 py-0.5 bg-blue-100 text-blue-700 text-xs font-semibold rounded-full">
+                {stats.unreadMessages} Unread
               </span>
             </div>
-            <p className="text-sm text-gray-600 leading-relaxed">
-              Check inquiries, collaboration requests, and questions submitted
-              through your website's contact form.
+            <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
+              Review inquiries, collaboration opportunities, and messages submitted
+              by visitors through your portfolio contact form.
             </p>
           </div>
           <Link
             href="/admin/messages"
-            className="btn-primary w-full text-center mt-6 text-sm py-2.5"
+            className="btn-primary w-full text-center mt-6 text-xs sm:text-sm py-2.5 sm:py-3 rounded-xl"
           >
-            View Messages Inbox
+            Open Inbox
           </Link>
         </div>
       </div>
