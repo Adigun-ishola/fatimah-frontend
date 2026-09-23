@@ -132,7 +132,7 @@ export default function Footer() {
               style={{ textIndent: "5px" }}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-[#c9a84c] transition-colors"
+              className="text-green-600 hover:text-[#c9a84c] transition-colors"
             >
               Harvatech
             </a>
