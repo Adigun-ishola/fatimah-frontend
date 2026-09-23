@@ -9,13 +9,25 @@ import DataTable from "@/components/admin/DataTable";
 import Modal from "@/components/ui/Modal";
 import Button from "@/components/ui/Button";
 
+type JourneyCategory = LegalJourneyEntry["category"];
+
 export default function AdminLegalJourneyPage() {
   const [items, setItems] = useState<LegalJourneyEntry[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<LegalJourneyEntry | null>(null);
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    title: string;
+    organization: string;
+    role: string;
+    start_date: string;
+    end_date: string;
+    is_current: boolean;
+    description: string;
+    highlights: string;
+    category: JourneyCategory;
+  }>({
     title: "",
     organization: "",
     role: "",
@@ -74,7 +86,7 @@ export default function AdminLegalJourneyPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const payload: any = {
+    const payload: Partial<LegalJourneyEntry> = {
       ...formData,
       end_date: formData.is_current ? null : formData.end_date || null,
       highlights: formData.highlights
@@ -230,7 +242,7 @@ export default function AdminLegalJourneyPage() {
             </label>
             <select
               value={formData.category}
-              onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+              onChange={(e) => setFormData({ ...formData, category: e.target.value as JourneyCategory })}
               className="input-field"
             >
               <option value="moot_court">Moot Court</option>

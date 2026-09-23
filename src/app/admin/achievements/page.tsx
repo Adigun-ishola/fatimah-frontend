@@ -9,13 +9,22 @@ import DataTable from "@/components/admin/DataTable";
 import Modal from "@/components/ui/Modal";
 import Button from "@/components/ui/Button";
 
+type AchievementCategory = Achievement["category"];
+
 export default function AdminAchievementsPage() {
   const [items, setItems] = useState<Achievement[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<Achievement | null>(null);
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    title: string;
+    organization: string;
+    date_received: string;
+    description: string;
+    category: AchievementCategory;
+    certificate_url: string;
+  }>({
     title: "",
     organization: "",
     date_received: new Date().toISOString().split("T")[0],
@@ -197,7 +206,7 @@ export default function AdminAchievementsPage() {
               </label>
               <select
                 value={formData.category}
-                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                onChange={(e) => setFormData({ ...formData, category: e.target.value as AchievementCategory })}
                 className="input-field"
               >
                 <option value="leadership">Leadership Position</option>
