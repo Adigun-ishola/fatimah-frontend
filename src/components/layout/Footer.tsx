@@ -122,7 +122,7 @@ export default function Footer() {
       {/* Bottom Bar */}
       <div className="border-t border-white/10">
         <div className="container-custom py-6 flex flex-col sm:flex-row items-center justify-between text-sm text-gray-400">
-          <p>
+          <p className="text-center">
             © {currentYear} {SITE_CONFIG.name}. All rights reserved.
           </p>
           <p className="flex items-center mt-2 sm:mt-0">
